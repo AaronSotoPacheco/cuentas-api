@@ -36,7 +36,19 @@ class AccountsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate=$request->validate([
+            "name"=>"required|string|min:2",
+            "ammount"=>"required|numberic",
+            "status"=>"required",
+            "user_id"=>"required"
+        ]);
+        $data = Account::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta creada exitosamente",
+            "data"=>$data
+        ]);
+
     }
 
     /**
