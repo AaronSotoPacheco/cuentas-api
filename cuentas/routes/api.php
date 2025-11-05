@@ -8,9 +8,12 @@ use App\Http\Controllers\TransactionsController;
 //EHDPOINT
 Route::resource('accounts', AccountsController::class);
 //EHDPOINT
-Route::resource('categories', AccountsController::class);
+Route::resource('categories', CategoriesController::class);
 //EHDPOINT
 Route::resource('transactions', TransactionsController::class);
+
+Route::post('changestatus', [AccountsController::class, 'changeStatus']);
+
 
 
 Route::get('/user', function (Request $request) {

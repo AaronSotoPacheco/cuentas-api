@@ -38,7 +38,7 @@ class AccountsController extends Controller
     {
         $validate=$request->validate([
             "name"=>"required|string|min:2",
-            "ammount"=>"required|numberic",
+            "amount"=>"required|numeric",
             "status"=>"required",
             "user_id"=>"required"
         ]);
@@ -56,8 +56,19 @@ class AccountsController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $data = Account::find($id);
+        if($data){
+            return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta encontrada",
+                "data"=>$data   
+                
+            ]);
+           
+        } return response()->json([
+                "status"=>"error", 
+                "message"=>"Cuenta no encontrada"
+            ],400);    }
 
     /**
      * Show the form for editing the specified resource.
@@ -72,7 +83,20 @@ class AccountsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate=$request->validate([
+            "name"=>"required|string|min:2",
+            "amount"=>"required|numeric",
+            "status"=>"required",
+            "user_id"=>"required"
+        ]);
+        $data = Account::findOrFail($id);
+        $data->update($validate);
+        //$data = Account::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta actualizado exitosamente",
+            "data"=>$data
+        ]);
     }
 
     /**
@@ -80,6 +104,26 @@ class AccountsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Account::find($id);
+        if($data){
+            $data->delete();
+           
+        } return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta eliminada exitosamente"
+            ]);
+    }
+    public function changeStatus(Request $request)
+    {
+        $data = Account::find($request->id);
+        if($data){
+            $data->status = $request->status;
+            $data->save();          
+        } 
+        return response()->json ([
+                "status"=>"ok",
+                "message"=>"Estado de la cuenta actualizado exitosamente",
+                "data"=>$data
+            ]);
     }
 }

@@ -31,7 +31,17 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate=$request->validate([
+            "name"=>"required|string|min:2",
+            "type"=>"required|string",
+            "user_id"=>"required"
+        ]);
+        $data = Category::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta creada exitosamente",
+            "data"=>$data
+        ]);
     }
 
     /**
@@ -39,15 +49,26 @@ class CategoriesController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $data = Category::find($id);
+        if($data){
+            return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta encontrada",
+                "data"=>$data   
+                
+            ]);
+           
+        } return response()->json([
+                "status"=>"error", 
+                "message"=>"Cuenta no encontrada"
+            ],400);      }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -55,7 +76,19 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate=$request->validate([
+            "name"=>"required|string|min:2",
+            "type"=>"required|string",
+            "user_id"=>"required"
+        ]);
+        $data = Category::findOrFail($id);
+        $data->update($validate);
+        //$data = Account::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta actualizado exitosamente",
+            "data"=>$data
+        ]);
     }
 
     /**
@@ -63,6 +96,13 @@ class CategoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Category::find($id);
+        if($data){
+            $data->delete();
+           
+        } return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta eliminada exitosamente"
+            ]);
     }
 }

@@ -12,7 +12,8 @@ class Transaction extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+protected $table = 'transactions';
+protected $fillable = ['amount','type', 'description', 'user_id', 'account_id', 'category_id'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -13,7 +13,8 @@ class Account extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+protected $table = 'accounts';
+protected $fillable = ['name', 'amount', 'status', 'user_id'];
     public function user(){
         return $this->hasOne (User::class,'id','user_id');
     }

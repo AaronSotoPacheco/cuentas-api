@@ -31,7 +31,20 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate=$request->validate([
+            "amount"=>"required|numeric",
+            "type"=>"required|string",
+            "description"=>"required|string",
+            "user_id"=>"required",
+            "category_id"=>"required",
+            "account_id"=>"required",
+        ]);
+        $data = Transaction::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta creada exitosamente",
+            "data"=>$data
+        ]);
     }
 
     /**
@@ -39,7 +52,19 @@ class TransactionsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Transaction::find($id);
+        if($data){
+            return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta encontrada",
+                "data"=>$data   
+                
+            ]);
+           
+        } return response()->json([
+                "status"=>"error", 
+                "message"=>"Cuenta no encontrada"
+            ],400);      
     }
 
     /**
@@ -55,7 +80,22 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate=$request->validate([
+            "amount"=>"required|numeric",
+            "type"=>"required|string",
+            "description"=>"required|string",
+            "user_id"=>"required",
+            "category_id"=>"required",
+            "account_id"=>"required",
+        ]);
+        $data = Transaction::findOrFail($id);
+        $data->update($validate);
+        //$data = Account::create($validate);
+        return response()->json([
+            "status"=>"ok", 
+            "message"=>"Cuenta actualizado exitosamente",
+            "data"=>$data
+        ]);
     }
 
     /**
@@ -63,6 +103,13 @@ class TransactionsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Transaction::find($id);
+        if($data){
+            $data->delete();
+           
+        } return response()->json([
+                "status"=>"ok", 
+                "message"=>"Cuenta eliminada exitosamente"
+            ]);
     }
 }
