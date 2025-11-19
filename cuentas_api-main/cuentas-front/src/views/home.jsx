@@ -5,25 +5,12 @@ import Header from './../layouts/header'
 import Card from './../components/card'
 import CreditCard from './../components/credit-card'
 function Home() {
-  var x=0
-  //react hooks
-  let [contador, setContador] = useState(0) 
-  let [arr, setArr] = useState([])
-let clickBtoton=()=>{
-setContador(contador+1)
-  console.log(x)
-  setArr([...arr, contador])
-}
+ 
   return (
     <>
-   <div className="d-flex">
-
-    <Sidebar/>
-
 <div className="content-area flex-grow-1">
 
-    
-    <Header/>
+ 
     
     <div className="row g-4">
 
@@ -92,7 +79,7 @@ setContador(contador+1)
     </div>
 
 </div>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
